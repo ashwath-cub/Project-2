@@ -47,14 +47,15 @@ void spi_init(void)
   /*The SS pin reverts to GPIO because the MODFEN bit hasn't been written to*/
 }
 
-uint8_t spi_send(char spiMsg)
+ spi_trf(char spiMsg)
 {
+  uint8_t data;
   GPIOC_PCOR = (1<<4);     //Pull SS low so as to activate slave device
-
   //Wait for the module to write ready
   while(!(SPI_S_SPTEF_MASK & SPI0_S));
   SPI0_D = spiMsg;    //Write char to SPI
-  while(!(SPI_S_SPTEF_MASK & SPI0_S));
+  while(!(SPI_S_SPRF_MASK & SPI0_S));
+  data=SPI0_D;
   GPIOC_PSOR = (1<<4);	  //Pull SS high back again
-  return SPI0_D;
+  return data;
 }

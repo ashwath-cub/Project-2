@@ -44,7 +44,7 @@ void main()
     ch='A';
     while(1)
     {
-  	    spi_send(ch);    //Send char over SPI
+  	    spi_trf(ch);    //Send char over SPI
 	}
 
     return;
